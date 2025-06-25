@@ -1,0 +1,198 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5yiigpprho2g"]
+
+[ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="1_4uiav"]
+[ext_resource type="Script" uid="uid://buharx72nrv5g" path="res://setup.gd" id="1_11tsp"]
+[ext_resource type="Theme" uid="uid://u0pn6dodnqmp" path="res://assets/themes/Label.tres" id="2_mpvgy"]
+[ext_resource type="FontFile" uid="uid://cqk3kstnv7mjt" path="res://assets/fonts/LeagueSpartan-Bold.otf" id="4_mvs7q"]
+
+[sub_resource type="Animation" id="Animation_11tsp"]
+resource_name = "Boot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main/FTSText:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 3.13834),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Main/PartText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7, 1),
+"transitions": PackedFloat32Array(1, 2.73208),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mvs7q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main/FTSText:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Main/PartText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yar3t"]
+_data = {
+&"Boot": SubResource("Animation_11tsp"),
+&"RESET": SubResource("Animation_mvs7q")
+}
+
+[node name="Setup" type="Node2D"]
+script = ExtResource("1_11tsp")
+
+[node name="MainAnims" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yar3t")
+}
+autoplay = "Boot"
+
+[node name="Cloudy" type="Sprite2D" parent="."]
+position = Vector2(189, 613)
+texture = ExtResource("1_4uiav")
+
+[node name="Main" type="Node2D" parent="."]
+
+[node name="Panel" type="Panel" parent="Main"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 368.0
+offset_bottom = 803.0
+
+[node name="FTSText" type="Label" parent="Main"]
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 320.0
+offset_bottom = 65.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 25
+text = "First-Time Setup"
+horizontal_alignment = 1
+
+[node name="PartText" type="Label" parent="Main"]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 77.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 10
+text = "(1/?) - Location"
+horizontal_alignment = 1
+
+[node name="Part1" type="Node2D" parent="."]
+
+[node name="CityName" type="TextEdit" parent="Part1"]
+offset_left = 24.0
+offset_top = 128.0
+offset_right = 352.0
+offset_bottom = 184.0
+
+[node name="PartText" type="Label" parent="Part1"]
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 368.0
+offset_bottom = 125.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 10
+text = "City Name"
+horizontal_alignment = 1
+
+[node name="ZipCode" type="TextEdit" parent="Part1"]
+offset_left = 24.0
+offset_top = 264.0
+offset_right = 352.0
+offset_bottom = 320.0
+
+[node name="PartText2" type="Label" parent="Part1"]
+offset_left = 16.0
+offset_top = 248.0
+offset_right = 368.0
+offset_bottom = 261.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 10
+text = "Zip Code"
+horizontal_alignment = 1
+
+[node name="Part1Done" type="Button" parent="Part1"]
+offset_left = 16.0
+offset_top = 744.0
+offset_right = 360.0
+offset_bottom = 792.0
+theme = ExtResource("2_mpvgy")
+theme_override_fonts/font = ExtResource("4_mvs7q")
+text = "Done"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Part1Confirm" type="Node2D" parent="."]
+visible = false
+
+[node name="PartText" type="Label" parent="Part1Confirm"]
+offset_left = 16.0
+offset_top = 192.0
+offset_right = 368.0
+offset_bottom = 224.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 25
+text = "Does this look correct?"
+horizontal_alignment = 1
+
+[node name="PartText2" type="Label" parent="Part1Confirm"]
+offset_left = 16.0
+offset_top = 232.0
+offset_right = 360.0
+offset_bottom = 576.0
+theme = ExtResource("2_mpvgy")
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Part1Done" type="Button" parent="Part1Confirm"]
+offset_left = 16.0
+offset_top = 744.0
+offset_right = 176.0
+offset_bottom = 792.0
+theme = ExtResource("2_mpvgy")
+theme_override_fonts/font = ExtResource("4_mvs7q")
+text = "Yes"
+
+[node name="Part1Done2" type="Button" parent="Part1Confirm"]
+offset_left = 200.0
+offset_top = 744.0
+offset_right = 360.0
+offset_bottom = 792.0
+theme = ExtResource("2_mpvgy")
+theme_override_fonts/font = ExtResource("4_mvs7q")
+text = "No"
+
+[connection signal="pressed" from="Part1/Part1Done" to="." method="_on_part_1_done_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="pressed" from="Part1Confirm/Part1Done" to="." method="_on_part_1_done_pressed"]
+[connection signal="pressed" from="Part1Confirm/Part1Done2" to="." method="_on_part_1_done_pressed"]

@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://u0pn6dodnqmp"]
+
+[ext_resource type="FontFile" uid="uid://cqk3kstnv7mjt" path="res://assets/fonts/LeagueSpartan-Bold.otf" id="1_fhrf5"]
+
+[resource]
+Label/fonts/font = ExtResource("1_fhrf5")
