@@ -19,18 +19,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Main/PartText:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.7, 1),
-"transitions": PackedFloat32Array(1, 2.73208),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_mvs7q"]
 length = 0.001
@@ -41,18 +29,6 @@ tracks/0/path = NodePath("Main/FTSText:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Main/PartText:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -94,16 +70,6 @@ offset_bottom = 65.0
 theme = ExtResource("2_mpvgy")
 theme_override_font_sizes/font_size = 25
 text = "First-Time Setup"
-horizontal_alignment = 1
-
-[node name="PartText" type="Label" parent="Main"]
-offset_left = 16.0
-offset_top = 64.0
-offset_right = 368.0
-offset_bottom = 77.0
-theme = ExtResource("2_mpvgy")
-theme_override_font_sizes/font_size = 10
-text = "(1/?) - Location"
 horizontal_alignment = 1
 
 [node name="Part1" type="Node2D" parent="."]
@@ -194,5 +160,5 @@ text = "No"
 
 [connection signal="pressed" from="Part1/Part1Done" to="." method="_on_part_1_done_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
-[connection signal="pressed" from="Part1Confirm/Part1Done" to="." method="_on_part_1_done_pressed"]
-[connection signal="pressed" from="Part1Confirm/Part1Done2" to="." method="_on_part_1_done_pressed"]
+[connection signal="pressed" from="Part1Confirm/Part1Done" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Part1Confirm/Part1Done2" to="." method="_on_no_pressed"]

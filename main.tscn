@@ -1,0 +1,129 @@
+[gd_scene load_steps=5 format=3 uid="uid://fb50upf4lqie"]
+
+[ext_resource type="Script" uid="uid://dekmeoy4j5btp" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="2_1bvp3"]
+[ext_resource type="Theme" uid="uid://u0pn6dodnqmp" path="res://assets/themes/Label.tres" id="2_h2yge"]
+[ext_resource type="FontFile" uid="uid://cqk3kstnv7mjt" path="res://assets/fonts/LeagueSpartan-Bold.otf" id="4_lquwl"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0xm2m")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="StatusPictures" type="Node2D" parent="."]
+
+[node name="Cloudy" type="Sprite2D" parent="StatusPictures"]
+position = Vector2(189, 613)
+texture = ExtResource("2_1bvp3")
+
+[node name="Currently" type="Node2D" parent="."]
+
+[node name="Panel" type="Panel" parent="Currently"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 368.0
+offset_bottom = 803.0
+
+[node name="Title" type="Label" parent="Currently"]
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 320.0
+offset_bottom = 65.0
+theme = ExtResource("2_h2yge")
+theme_override_font_sizes/font_size = 25
+text = "Weather Currently"
+horizontal_alignment = 1
+
+[node name="CurrentTemp" type="Label" parent="Currently"]
+offset_left = 64.0
+offset_top = 72.0
+offset_right = 320.0
+offset_bottom = 97.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "98.1°F (36.1°C)"
+horizontal_alignment = 1
+
+[node name="FeelsLike" type="Label" parent="Currently"]
+offset_left = 64.0
+offset_top = 98.0
+offset_right = 320.0
+offset_bottom = 123.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 10
+text = "Feels Like: 98.1°F (36.1°C)"
+horizontal_alignment = 1
+
+[node name="Humidity" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 136.0
+offset_right = 272.0
+offset_bottom = 161.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Humidity: 41.0%"
+
+[node name="WindSpeed" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 184.0
+offset_right = 272.0
+offset_bottom = 209.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Wind Speed: 13.2km/h"
+
+[node name="WindGusts" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 232.0
+offset_right = 272.0
+offset_bottom = 257.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Wind Gusts: 20.5km/h"
+
+[node name="WindDirection" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 280.0
+offset_right = 272.0
+offset_bottom = 305.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Wind Direction: West"
+
+[node name="CloudCover" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 328.0
+offset_right = 272.0
+offset_bottom = 353.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Cloud Cover: 3.0%"
+
+[node name="Precip" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 376.0
+offset_right = 272.0
+offset_bottom = 401.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Precipitation: 0.0mm"
+
+[node name="Rain" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 424.0
+offset_right = 272.0
+offset_bottom = 449.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Rain: 0.0mm"
+
+[node name="Showers" type="Label" parent="Currently"]
+offset_left = 16.0
+offset_top = 472.0
+offset_right = 272.0
+offset_bottom = 497.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "Showers: 0.0mm"
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
