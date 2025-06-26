@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dekmeoy4j5btp" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="2_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dvytqk7js3ghn" path="res://assets/images/bigstatus/rain.jpg" id="2_4c57u"]
-[ext_resource type="Texture2D" uid="uid://b8dihr2e1ftuk" path="res://assets/images/bigstatus/snow_clouds.jpg" id="2_efxa6"]
+[ext_resource type="Texture2D" uid="uid://b8dihr2e1ftuk" path="res://assets/images/bigstatus/snow.jpg" id="2_efxa6"]
 [ext_resource type="Theme" uid="uid://u0pn6dodnqmp" path="res://assets/themes/Label.tres" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://byy77tbsrx7ma" path="res://assets/images/bigstatus/overcast.png" id="3_efxa6"]
 [ext_resource type="Texture2D" uid="uid://btk64sv8i76xy" path="res://assets/images/bigstatus/clear.jpg" id="3_lquwl"]
