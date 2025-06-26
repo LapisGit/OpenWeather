@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://fb50upf4lqie"]
+[gd_scene load_steps=12 format=3 uid="uid://fb50upf4lqie"]
 
 [ext_resource type="Script" uid="uid://dekmeoy4j5btp" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="2_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://dvytqk7js3ghn" path="res://assets/images/bigstatus/rain.jpg" id="2_4c57u"]
+[ext_resource type="Texture2D" uid="uid://b8dihr2e1ftuk" path="res://assets/images/bigstatus/snow_clouds.jpg" id="2_efxa6"]
 [ext_resource type="Theme" uid="uid://u0pn6dodnqmp" path="res://assets/themes/Label.tres" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://byy77tbsrx7ma" path="res://assets/images/bigstatus/overcast.png" id="3_efxa6"]
+[ext_resource type="Texture2D" uid="uid://btk64sv8i76xy" path="res://assets/images/bigstatus/clear.jpg" id="3_lquwl"]
+[ext_resource type="Texture2D" uid="uid://chdpm8baai7cm" path="res://assets/images/bigstatus/foggy.png" id="4_7mycd"]
 [ext_resource type="FontFile" uid="uid://cqk3kstnv7mjt" path="res://assets/fonts/LeagueSpartan-Bold.otf" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dgtii7mqkptxb" path="res://assets/images/tinystatus/rain.png" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://lgvg5u846cbu" path="res://assets/images/tinystatus/snow.png" id="8_dg77c"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
@@ -12,9 +19,77 @@ script = ExtResource("1_0xm2m")
 
 [node name="StatusPictures" type="Node2D" parent="."]
 
+[node name="Snow" type="Sprite2D" parent="StatusPictures"]
+visible = false
+position = Vector2(168, 408)
+texture = ExtResource("2_efxa6")
+
+[node name="Rain" type="Sprite2D" parent="StatusPictures"]
+visible = false
+position = Vector2(283.25, 408)
+scale = Vector2(1.64295, 1.57308)
+texture = ExtResource("2_4c57u")
+
+[node name="Overcast" type="Sprite2D" parent="StatusPictures"]
+visible = false
+modulate = Color(0.817521, 0.817521, 0.817521, 1)
+position = Vector2(571, 408)
+scale = Vector2(1.67444, 1.67444)
+texture = ExtResource("3_efxa6")
+
+[node name="Foggy" type="Sprite2D" parent="StatusPictures"]
+visible = false
+position = Vector2(99, 400)
+scale = Vector2(2.48252, 2.48252)
+texture = ExtResource("4_7mycd")
+
 [node name="Cloudy" type="Sprite2D" parent="StatusPictures"]
+visible = false
 position = Vector2(189, 613)
 texture = ExtResource("2_1bvp3")
+
+[node name="Clear" type="Sprite2D" parent="StatusPictures"]
+position = Vector2(192, 384)
+scale = Vector2(2.21638, 2.21638)
+texture = ExtResource("3_lquwl")
+
+[node name="RainParts" type="CPUParticles2D" parent="."]
+position = Vector2(173, -220)
+rotation = -0.00872665
+emitting = false
+amount = 99
+texture = ExtResource("5_272bh")
+lifetime = 4.74
+randomness = 0.62
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(25.685, 1004.02)
+initial_velocity_min = 93.96
+initial_velocity_max = 306.08
+linear_accel_max = 4.04
+radial_accel_max = 10.1
+
+[node name="SnowParts" type="CPUParticles2D" parent="."]
+position = Vector2(173, -220)
+rotation = -0.00872665
+emitting = false
+amount = 99
+texture = ExtResource("8_dg77c")
+lifetime = 4.74
+randomness = 0.62
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(25.685, 1004.02)
+initial_velocity_min = 93.96
+initial_velocity_max = 306.08
+linear_accel_min = -100.0
+linear_accel_max = -100.0
+radial_accel_min = -47.04
+radial_accel_max = -47.04
+scale_amount_min = 0.0
+scale_amount_max = 0.85
 
 [node name="Currently" type="Node2D" parent="."]
 
@@ -24,11 +99,23 @@ offset_top = 8.0
 offset_right = 368.0
 offset_bottom = 803.0
 
+[node name="Panel2" type="Panel" parent="Currently"]
+offset_left = 16.0
+offset_top = 128.0
+offset_right = 176.0
+offset_bottom = 256.0
+
+[node name="Panel3" type="Panel" parent="Currently"]
+offset_left = 200.0
+offset_top = 128.0
+offset_right = 360.0
+offset_bottom = 256.0
+
 [node name="Title" type="Label" parent="Currently"]
 offset_left = 64.0
-offset_top = 32.0
+offset_top = 24.0
 offset_right = 320.0
-offset_bottom = 65.0
+offset_bottom = 57.0
 theme = ExtResource("2_h2yge")
 theme_override_font_sizes/font_size = 25
 text = "Weather Currently"
@@ -36,9 +123,9 @@ horizontal_alignment = 1
 
 [node name="CurrentTemp" type="Label" parent="Currently"]
 offset_left = 64.0
-offset_top = 72.0
+offset_top = 61.0
 offset_right = 320.0
-offset_bottom = 97.0
+offset_bottom = 86.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 20
 text = "98.1°F (36.1°C)"
@@ -46,84 +133,231 @@ horizontal_alignment = 1
 
 [node name="FeelsLike" type="Label" parent="Currently"]
 offset_left = 64.0
-offset_top = 98.0
+offset_top = 87.0
 offset_right = 320.0
-offset_bottom = 123.0
+offset_bottom = 112.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 10
 text = "Feels Like: 98.1°F (36.1°C)"
 horizontal_alignment = 1
 
-[node name="Humidity" type="Label" parent="Currently"]
-offset_left = 16.0
+[node name="WeatherCodeText" type="Label" parent="Currently"]
+offset_left = 64.0
+offset_top = 101.0
+offset_right = 320.0
+offset_bottom = 125.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 10
+text = "Partly Cloudy"
+horizontal_alignment = 1
+
+[node name="HumidityText" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 135.0
+offset_right = 160.0
+offset_bottom = 160.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Humidity"
+horizontal_alignment = 1
+
+[node name="Humidity" type="ProgressBar" parent="Currently"]
+offset_left = 34.0
+offset_top = 161.0
+offset_right = 154.0
+offset_bottom = 241.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 25
+value = 50.0
+rounded = true
+fill_mode = 2
+
+[node name="CloudCoverText" type="Label" parent="Currently"]
+offset_left = 208.0
 offset_top = 136.0
-offset_right = 272.0
+offset_right = 352.0
 offset_bottom = 161.0
 theme_override_fonts/font = ExtResource("4_lquwl")
-theme_override_font_sizes/font_size = 20
-text = "Humidity: 41.0%"
+theme_override_font_sizes/font_size = 15
+text = "Cloud Cover"
+horizontal_alignment = 1
 
-[node name="WindSpeed" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 184.0
-offset_right = 272.0
-offset_bottom = 209.0
+[node name="CloudCover" type="ProgressBar" parent="Currently"]
+offset_left = 224.0
+offset_top = 162.0
+offset_right = 344.0
+offset_bottom = 242.0
 theme_override_fonts/font = ExtResource("4_lquwl")
-theme_override_font_sizes/font_size = 20
-text = "Wind Speed: 13.2km/h"
+theme_override_font_sizes/font_size = 25
+value = 50.0
+rounded = true
+fill_mode = 2
 
-[node name="WindGusts" type="Label" parent="Currently"]
+[node name="Panel4" type="Panel" parent="Currently"]
 offset_left = 16.0
-offset_top = 232.0
-offset_right = 272.0
-offset_bottom = 257.0
-theme_override_fonts/font = ExtResource("4_lquwl")
-theme_override_font_sizes/font_size = 20
-text = "Wind Gusts: 20.5km/h"
+offset_top = 272.0
+offset_right = 176.0
+offset_bottom = 400.0
 
-[node name="WindDirection" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 280.0
-offset_right = 272.0
-offset_bottom = 305.0
+[node name="PrecipText" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 279.0
+offset_right = 168.0
+offset_bottom = 304.0
 theme_override_fonts/font = ExtResource("4_lquwl")
-theme_override_font_sizes/font_size = 20
-text = "Wind Direction: West"
-
-[node name="CloudCover" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 328.0
-offset_right = 272.0
-offset_bottom = 353.0
-theme_override_fonts/font = ExtResource("4_lquwl")
-theme_override_font_sizes/font_size = 20
-text = "Cloud Cover: 3.0%"
+theme_override_font_sizes/font_size = 15
+text = "Precipitation"
+horizontal_alignment = 1
 
 [node name="Precip" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 376.0
-offset_right = 272.0
-offset_bottom = 401.0
+offset_left = 24.0
+offset_top = 304.0
+offset_right = 168.0
+offset_bottom = 392.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 20
-text = "Precipitation: 0.0mm"
+text = "0.0mm"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel5" type="Panel" parent="Currently"]
+offset_left = 200.0
+offset_top = 272.0
+offset_right = 360.0
+offset_bottom = 400.0
+
+[node name="RainText" type="Label" parent="Currently"]
+offset_left = 208.0
+offset_top = 279.0
+offset_right = 352.0
+offset_bottom = 304.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Rain"
+horizontal_alignment = 1
 
 [node name="Rain" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 424.0
-offset_right = 272.0
-offset_bottom = 449.0
+offset_left = 208.0
+offset_top = 304.0
+offset_right = 352.0
+offset_bottom = 392.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 20
-text = "Rain: 0.0mm"
+text = "0.0mm"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel6" type="Panel" parent="Currently"]
+offset_left = 16.0
+offset_top = 416.0
+offset_right = 176.0
+offset_bottom = 544.0
+
+[node name="ShowersText" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 423.0
+offset_right = 168.0
+offset_bottom = 448.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Showers"
+horizontal_alignment = 1
 
 [node name="Showers" type="Label" parent="Currently"]
-offset_left = 16.0
-offset_top = 472.0
-offset_right = 272.0
-offset_bottom = 497.0
+offset_left = 24.0
+offset_top = 448.0
+offset_right = 168.0
+offset_bottom = 536.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 20
-text = "Showers: 0.0mm"
+text = "0.0mm"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel7" type="Panel" parent="Currently"]
+offset_left = 200.0
+offset_top = 416.0
+offset_right = 360.0
+offset_bottom = 544.0
+
+[node name="WindSpeedText" type="Label" parent="Currently"]
+offset_left = 208.0
+offset_top = 423.0
+offset_right = 352.0
+offset_bottom = 448.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Wind Speed"
+horizontal_alignment = 1
+
+[node name="WindSpeed" type="Label" parent="Currently"]
+offset_left = 208.0
+offset_top = 448.0
+offset_right = 352.0
+offset_bottom = 536.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "13.2km/h (20mph)"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel8" type="Panel" parent="Currently"]
+offset_left = 200.0
+offset_top = 560.0
+offset_right = 360.0
+offset_bottom = 688.0
+
+[node name="WindGustsText" type="Label" parent="Currently"]
+offset_left = 208.0
+offset_top = 567.0
+offset_right = 352.0
+offset_bottom = 592.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Wind Gusts"
+horizontal_alignment = 1
+
+[node name="WindGusts" type="Label" parent="Currently"]
+offset_left = 208.0
+offset_top = 592.0
+offset_right = 352.0
+offset_bottom = 680.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+text = "13.2km/h (20mph)"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel9" type="Panel" parent="Currently"]
+offset_left = 16.0
+offset_top = 560.0
+offset_right = 176.0
+offset_bottom = 688.0
+
+[node name="WindDirectionText" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 567.0
+offset_right = 168.0
+offset_bottom = 592.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 15
+text = "Wind Direction"
+horizontal_alignment = 1
+
+[node name="WindDirection" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 592.0
+offset_right = 168.0
+offset_bottom = 680.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
