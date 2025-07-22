@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj0q0ysgyocdh"]
+
+[ext_resource type="Theme" uid="uid://u0pn6dodnqmp" path="res://assets/themes/Label.tres" id="1_funn1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig0cm"]
+bg_color = Color(0.27451, 0.368627, 0.478431, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="AlertButton" type="Control"]
+custom_minimum_size = Vector2(410, 65)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -22.0
+offset_top = -8.0
+offset_right = -22.0
+offset_bottom = -8.0
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 56.0
+theme = ExtResource("1_funn1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ig0cm")
+metadata/_edit_use_anchors_ = true
+
+[node name="Event" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 10.0
+offset_right = 309.0
+offset_bottom = 31.0
+text = "EVENT TITLE"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Severity" type="Label" parent="Panel"]
+offset_left = 21.0
+offset_top = 28.0
+offset_right = 309.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 9
+text = "SEVERITY"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_left = 21.0
+offset_top = 6.0
+offset_right = 355.0
+offset_bottom = 60.0

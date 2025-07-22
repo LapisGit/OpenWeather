@@ -31,6 +31,7 @@ global="*res://global.gd"
 
 window/size/viewport_width=375
 window/size/viewport_height=812
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 

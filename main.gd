@@ -5,6 +5,8 @@ var lon: String = ""
 var winddir: float
 var currentweatherurl: String = ""
 var code: int
+var alert_count: int
+var AlertButtonScene = preload("res://AlertButton.tscn")
 func _ready() -> void:
 	load_coordinates()
 	if lat != "" and lon != "":
@@ -14,6 +16,8 @@ func _ready() -> void:
 			"weather_code,cloud_cover,precipitation,rain,showers,is_day," + \
 			"temperature_2m,relative_humidity_2m,apparent_temperature&forecast_days=1"
 		$HTTPRequest.request(currentweatherurl)
+		var alerts_url = "https://api.weather.gov/alerts/active?point=" + lat + "," + lon
+		$GetAlerts.request(alerts_url)
 	else:
 		print("Latitude or longitude missing.")
 
@@ -177,3 +181,86 @@ func set_weather_code_things(weathercode: int):
 		$RainParts.emitting = true
 		$StatusPictures/Rain.visible = true
 		$Currently/WeatherCodeText.text = "Thunderstorms with Heavy Hail"
+
+
+func _on_get_alerts_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code != 200:
+		print("Error fetching alerts: ", response_code)
+		alert_count = 0
+		return
+
+	var response = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(response) != TYPE_DICTIONARY:
+		print("Invalid alerts response.")
+		alert_count = 0
+		return
+
+	var alerts = response.get("features", [])
+	alert_count = alerts.size()
+
+	print("Alert count: ", alert_count)
+	if alert_count == 1:
+		$Currently/AlertCount.text = str(alert_count)+" Active Alert"
+	else:
+		$Currently/AlertCount.text = str(alert_count)+" Active Alerts"
+	
+	if alert_count == 0:
+		print("No active alerts.")
+	else:
+
+
+		for alert in alerts:
+			var properties = alert.get("properties", {})
+			var title = properties.get("headline", "No title")
+			var description = properties.get("description", "No description")
+			var severity = properties.get("severity", "Unknown")
+			var event = properties.get("event", "Unknown")
+			
+			var alert_button = AlertButtonScene.instantiate()
+			
+			alert_button.get_node("Panel/Event").text = event
+			alert_button.get_node("Panel/Severity").text = severity
+			
+			# meta if i need it sometime lol
+			alert_button.set_meta("description", description)
+			alert_button.set_meta("severity", severity)
+			alert_button.set_meta("event", event)
+			
+			alert_button.get_node("TextureButton").pressed.connect(func():
+				print("Alert clicked: ", title)
+				print("Event: ", event)
+				print("Severity: ", severity)
+				print("Description: ", description)
+				$AlertInfo/Event.text = event
+				$AlertInfo/Description.text = description
+				$AlertInfo/Severity.text = "Severity: "+ severity
+				var titlenew = title.replace(event, "").strip_edges()
+				$AlertInfo/Timing.text = titlenew
+				$Alerts.visible = false
+				$AlertInfo.visible = true
+			)
+			
+			$Alerts/ScrollContainer/GridContainer.add_child(alert_button)
+
+
+func _on_backalerts_button_pressed() -> void:
+	$AlertInfo.visible = false
+	$Alerts.visible = true
+
+
+func _on_backalertslist_button_pressed() -> void:
+	$Alerts.visible = false
+	$Currently.visible = true
+
+
+func _on_activealerts_button_pressed() -> void:
+	$Currently.visible = false
+	$Alerts.visible = true
+
+
+func _on_texture_button_pressed() -> void:
+	global.changescene("res://main.tscn")
+
+
+func _on_setup_button_pressed() -> void:
+	global.changescene("res://setup.tscn")

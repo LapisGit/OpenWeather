@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://fb50upf4lqie"]
+[gd_scene load_steps=15 format=3 uid="uid://fb50upf4lqie"]
 
 [ext_resource type="Script" uid="uid://dekmeoy4j5btp" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="2_1bvp3"]
@@ -11,11 +11,16 @@
 [ext_resource type="FontFile" uid="uid://cqk3kstnv7mjt" path="res://assets/fonts/LeagueSpartan-Bold.otf" id="4_lquwl"]
 [ext_resource type="Texture2D" uid="uid://dgtii7mqkptxb" path="res://assets/images/tinystatus/rain.png" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://lgvg5u846cbu" path="res://assets/images/tinystatus/snow.png" id="8_dg77c"]
+[ext_resource type="Texture2D" uid="uid://b33jjny7qplex" path="res://assets/images/back.svg" id="12_dg77c"]
+[ext_resource type="Texture2D" uid="uid://ciwbjqxo0le8v" path="res://assets/images/setup.svg" id="12_w48qg"]
+[ext_resource type="Texture2D" uid="uid://cns8awlkj6nff" path="res://assets/images/refresh.svg" id="12_ycdy4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="GetAlerts" type="HTTPRequest" parent="."]
 
 [node name="StatusPictures" type="Node2D" parent="."]
 
@@ -91,13 +96,13 @@ radial_accel_max = -47.04
 scale_amount_min = 0.0
 scale_amount_max = 0.85
 
-[node name="Currently" type="Node2D" parent="."]
-
-[node name="Panel" type="Panel" parent="Currently"]
+[node name="Panel" type="Panel" parent="."]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 368.0
 offset_bottom = 803.0
+
+[node name="Currently" type="Node2D" parent="."]
 
 [node name="Panel2" type="Panel" parent="Currently"]
 offset_left = 16.0
@@ -360,4 +365,124 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="Setup" type="Sprite2D" parent="Currently"]
+position = Vector2(30, 57)
+scale = Vector2(0.130952, 0.130952)
+texture = ExtResource("12_w48qg")
+
+[node name="TextureButton" type="TextureButton" parent="Currently/Setup"]
+offset_left = -92.0
+offset_top = -92.0
+offset_right = 92.0
+offset_bottom = 99.0
+
+[node name="Refresh" type="Sprite2D" parent="Currently"]
+position = Vector2(29, 29)
+scale = Vector2(0.154762, 0.154762)
+texture = ExtResource("12_ycdy4")
+
+[node name="TextureButton" type="TextureButton" parent="Currently/Refresh"]
+offset_left = -84.0
+offset_top = -90.0
+offset_right = 90.0
+offset_bottom = 90.0
+
+[node name="AlertCount" type="Label" parent="Currently"]
+offset_left = 24.0
+offset_top = 744.0
+offset_right = 360.0
+offset_bottom = 772.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 25
+text = "0 Active Alerts"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="Currently/AlertCount"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = -8.0
+offset_right = 296.0
+offset_bottom = 40.0
+
+[node name="Alerts" type="Node2D" parent="."]
+visible = false
+
+[node name="Back" type="Sprite2D" parent="Alerts"]
+position = Vector2(32, 32)
+texture = ExtResource("12_dg77c")
+
+[node name="TextureButton" type="TextureButton" parent="Alerts/Back"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Alerts"]
+offset_top = 48.0
+offset_right = 376.0
+offset_bottom = 792.0
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="VBoxContainer" parent="Alerts/ScrollContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AlertInfo" type="Node2D" parent="."]
+visible = false
+
+[node name="Back" type="Sprite2D" parent="AlertInfo"]
+position = Vector2(32, 32)
+texture = ExtResource("12_dg77c")
+
+[node name="TextureButton" type="TextureButton" parent="AlertInfo/Back"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Event" type="Label" parent="AlertInfo"]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 360.0
+offset_bottom = 112.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 35
+horizontal_alignment = 1
+
+[node name="Timing" type="Label" parent="AlertInfo"]
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 360.0
+offset_bottom = 176.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="AlertInfo"]
+offset_left = 16.0
+offset_top = 160.0
+offset_right = 360.0
+offset_bottom = 760.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Severity" type="Label" parent="AlertInfo"]
+offset_left = 16.0
+offset_top = 768.0
+offset_right = 360.0
+offset_bottom = 793.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="request_completed" from="GetAlerts" to="." method="_on_get_alerts_request_completed"]
+[connection signal="pressed" from="Currently/Setup/TextureButton" to="." method="_on_setup_button_pressed"]
+[connection signal="pressed" from="Currently/Refresh/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Currently/AlertCount/TextureButton" to="." method="_on_activealerts_button_pressed"]
+[connection signal="pressed" from="Alerts/Back/TextureButton" to="." method="_on_backalertslist_button_pressed"]
+[connection signal="pressed" from="AlertInfo/Back/TextureButton" to="." method="_on_backalerts_button_pressed"]
