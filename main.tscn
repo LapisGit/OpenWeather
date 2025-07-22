@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://fb50upf4lqie"]
+[gd_scene load_steps=16 format=3 uid="uid://fb50upf4lqie"]
 
 [ext_resource type="Script" uid="uid://dekmeoy4j5btp" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://dka44185xx8c4" path="res://assets/images/bigstatus/cloudy.jpg" id="2_1bvp3"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dgtii7mqkptxb" path="res://assets/images/tinystatus/rain.png" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://lgvg5u846cbu" path="res://assets/images/tinystatus/snow.png" id="8_dg77c"]
 [ext_resource type="Texture2D" uid="uid://b33jjny7qplex" path="res://assets/images/back.svg" id="12_dg77c"]
+[ext_resource type="Texture2D" uid="uid://gukyqfsa1und" path="res://assets/images/7day.svg" id="12_vivmo"]
 [ext_resource type="Texture2D" uid="uid://ciwbjqxo0le8v" path="res://assets/images/setup.svg" id="12_w48qg"]
 [ext_resource type="Texture2D" uid="uid://cns8awlkj6nff" path="res://assets/images/refresh.svg" id="12_ycdy4"]
 
@@ -19,6 +20,10 @@
 script = ExtResource("1_0xm2m")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="NWSForecast" type="HTTPRequest" parent="."]
+
+[node name="NWSGridpoint" type="HTTPRequest" parent="."]
 
 [node name="GetAlerts" type="HTTPRequest" parent="."]
 
@@ -103,6 +108,7 @@ offset_right = 368.0
 offset_bottom = 803.0
 
 [node name="Currently" type="Node2D" parent="."]
+visible = false
 
 [node name="Panel2" type="Panel" parent="Currently"]
 offset_left = 16.0
@@ -365,6 +371,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="7Day" type="Sprite2D" parent="Currently"]
+position = Vector2(288, 757)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("12_vivmo")
+
+[node name="TextureButton" type="TextureButton" parent="Currently/7Day"]
+offset_left = -84.0
+offset_top = -84.0
+offset_right = 84.0
+offset_bottom = 93.0
+
 [node name="Setup" type="Sprite2D" parent="Currently"]
 position = Vector2(30, 57)
 scale = Vector2(0.130952, 0.130952)
@@ -388,10 +405,10 @@ offset_right = 90.0
 offset_bottom = 90.0
 
 [node name="AlertCount" type="Label" parent="Currently"]
-offset_left = 24.0
+offset_left = -6.0
 offset_top = 744.0
-offset_right = 360.0
-offset_bottom = 772.0
+offset_right = 330.0
+offset_bottom = 776.0
 theme_override_fonts/font = ExtResource("4_lquwl")
 theme_override_font_sizes/font_size = 25
 text = "0 Active Alerts"
@@ -427,6 +444,18 @@ horizontal_scroll_mode = 0
 [node name="GridContainer" type="VBoxContainer" parent="Alerts/ScrollContainer"]
 layout_mode = 2
 alignment = 1
+
+[node name="NoAlertsText" type="Label" parent="Alerts"]
+visible = false
+offset_left = 16.0
+offset_top = 320.0
+offset_right = 360.0
+offset_bottom = 423.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 30
+text = "No current alerts for this area."
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="AlertInfo" type="Node2D" parent="."]
 visible = false
@@ -479,10 +508,57 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="7Day" type="Node2D" parent="."]
+visible = false
+
+[node name="Title" type="Label" parent="7Day"]
+offset_left = 64.0
+offset_top = 24.0
+offset_right = 320.0
+offset_bottom = 57.0
+theme = ExtResource("2_h2yge")
+theme_override_font_sizes/font_size = 25
+text = "7-Day Forecast"
+horizontal_alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="7Day"]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 360.0
+offset_bottom = 784.0
+theme_override_fonts/normal_font = ExtResource("4_lquwl")
+
+[node name="Back" type="Sprite2D" parent="7Day"]
+position = Vector2(32, 32)
+texture = ExtResource("12_dg77c")
+
+[node name="TextureButton" type="TextureButton" parent="7Day/Back"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Loading" type="Node2D" parent="."]
+
+[node name="NoAlertsText" type="Label" parent="Loading"]
+offset_left = 16.0
+offset_top = 320.0
+offset_right = 360.0
+offset_bottom = 423.0
+theme_override_fonts/font = ExtResource("4_lquwl")
+theme_override_font_sizes/font_size = 30
+text = "Loading Data..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="request_completed" from="NWSForecast" to="." method="_on_nws_forecast_request_completed"]
+[connection signal="request_completed" from="NWSGridpoint" to="." method="_on_nws_gridpoint_request_completed"]
 [connection signal="request_completed" from="GetAlerts" to="." method="_on_get_alerts_request_completed"]
+[connection signal="pressed" from="Currently/7Day/TextureButton" to="." method="_on_7day_button_pressed"]
 [connection signal="pressed" from="Currently/Setup/TextureButton" to="." method="_on_setup_button_pressed"]
 [connection signal="pressed" from="Currently/Refresh/TextureButton" to="." method="_on_texture_button_pressed"]
 [connection signal="pressed" from="Currently/AlertCount/TextureButton" to="." method="_on_activealerts_button_pressed"]
 [connection signal="pressed" from="Alerts/Back/TextureButton" to="." method="_on_backalertslist_button_pressed"]
 [connection signal="pressed" from="AlertInfo/Back/TextureButton" to="." method="_on_backalerts_button_pressed"]
+[connection signal="pressed" from="7Day/Back/TextureButton" to="." method="_on_7dayback_button_pressed"]

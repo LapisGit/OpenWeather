@@ -18,6 +18,8 @@ func _ready() -> void:
 		$HTTPRequest.request(currentweatherurl)
 		var alerts_url = "https://api.weather.gov/alerts/active?point=" + lat + "," + lon
 		$GetAlerts.request(alerts_url)
+		var nws_point_url = "https://api.weather.gov/points/" + lat + "," + lon
+		$NWSGridpoint.request(nws_point_url)
 	else:
 		print("Latitude or longitude missing.")
 
@@ -79,6 +81,9 @@ func _on_HTTPRequest_request_completed(result: int, response_code: int, headers:
 	$Currently/Precip.text = str(current.get("precipitation"))+units.get("precipitation")
 	$Currently/Rain.text = str(current.get("rain"))+units.get("rain")
 	$Currently/Showers.text = str(current.get("showers"))+units.get("showers")
+	
+	$Currently.visible = true
+	$Loading.visible = false
 	
 func celsius_to_fahrenheit(celsius_temp: float):
 	var fahrenheit_temp = (celsius_temp * 9.0 / 5.0) + 32.0
@@ -206,9 +211,10 @@ func _on_get_alerts_request_completed(result: int, response_code: int, headers: 
 	
 	if alert_count == 0:
 		print("No active alerts.")
+		$Alerts/NoAlertsText.visible = true
 	else:
 
-
+		$Alerts/NoAlertsText.visible = false
 		for alert in alerts:
 			var properties = alert.get("properties", {})
 			var title = properties.get("headline", "No title")
@@ -264,3 +270,55 @@ func _on_texture_button_pressed() -> void:
 
 func _on_setup_button_pressed() -> void:
 	global.changescene("res://setup.tscn")
+
+func _on_nws_gridpoint_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code != 200:
+		print("Error fetching NWS point data: ", response_code)
+		return
+
+	var response = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(response) != TYPE_DICTIONARY:
+		print("Invalid NWS point response.")
+		return
+
+	var forecast_url = response.get("properties", {}).get("forecast", "")
+	if forecast_url != "":
+		print("Fetching 7-day forecast from: ", forecast_url)
+		$NWSForecast.request(forecast_url)
+	else:
+		print("Forecast URL not found in point response.")
+		
+func _on_nws_forecast_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code != 200:
+		print("Error fetching forecast: ", response_code)
+		return
+
+	var response = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(response) != TYPE_DICTIONARY:
+		print("Invalid forecast response.")
+		return
+
+	var periods = response.get("properties", {}).get("periods", [])
+	if periods.size() == 0:
+		print("No forecast data found.")
+		return
+
+	var forecast_text := ""
+	for period in periods:
+		var name = period.get("name", "Unknown")
+		var detailed = period.get("detailedForecast", "No details.")
+		forecast_text += name + ": " + detailed + "\n\n"
+
+	print("7-Day Forecast:\n", forecast_text)
+	$"7Day/Label".text = forecast_text
+
+
+
+func _on_7day_button_pressed() -> void:
+	$Currently.visible = false
+	$"7Day".visible = true
+
+
+func _on_7dayback_button_pressed() -> void:
+	$Currently.visible = true
+	$"7Day".visible = false
